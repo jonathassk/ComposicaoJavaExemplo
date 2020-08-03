@@ -3,31 +3,29 @@ package entities;
 import enums.WorkerLevel;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Worker {
   private String name;
   private WorkerLevel workerLevel;
   private Double baseSalary;
-  private Departament departament;
+  private Department department;
   private List<HourContract> contracts = new ArrayList<>();
 
-  public Worker () {
-  }
-
-  public Worker (String name, WorkerLevel workerLevel, Double baseSalary, Departament departament) {
+  public Worker (String name, WorkerLevel workerLevel, Double baseSalary, Department department) {
     this.name = name;
     this.workerLevel = workerLevel;
     this.baseSalary = baseSalary;
-    this.departament = departament;
+    this.department = department;
   }
 
   public String getName() {
     return name;
   }
 
-  public Departament getDepartament() {
-    return departament;
+  public Department getDepartment() {
+    return department;
   }
 
   public Double getBaseSalary() {
@@ -54,8 +52,8 @@ public class Worker {
     this.workerLevel = workerLevel;
   }
 
-  public void setDepartament(Departament departament) {
-    this.departament = departament;
+  public void setDepartment(Department department) {
+    this.department = department;
   }
 
   public void addContract (HourContract contract) {
@@ -64,5 +62,18 @@ public class Worker {
 
   public void removeContract (HourContract contract) {
     contracts.remove(contract);
+  }
+
+  public void income (int year, int month) {
+    double sum = this.baseSalary;
+    Calendar cal = Calendar.getInstance();
+    for (HourContract contract : contracts) {
+      cal.setTime(cal.getTime());
+      int c_year = cal.get(Calendar.YEAR);
+      int c_month = cal.get(Calendar.MONTH);
+      if (year == c_year && month == c_month) {
+        sum += contract.totalValue();
+      }
+    }
   }
 }
